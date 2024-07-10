@@ -1,12 +1,19 @@
 <script>
-    let count = 0;
-    let incCnt = () => count++;
+	import Form from "./Form.svelte";
+	import Card from "./Card.svelte";
+	import Counter from "./Counter.svelte";
 
-    let name = '';
+    let characters = [];
+    let message = (e) => {
+        characters.push(e.detail);
+        characters = characters.splice(-9);
+    }
 </script>
 
-<p>{count}</p>
-<button on:click={incCnt}>Click</button>
+<Form on:create={message} />
 
-<h1>Hello {name}</h1>
-<input bind:value={name} placeholder="name" />
+{#each characters as character}
+    <Card {character} />
+{/each}
+
+<Counter />
