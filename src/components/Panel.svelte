@@ -1,19 +1,27 @@
 <script>
-	import Form from "./Form.svelte";
-	import Card from "./Card.svelte";
-	import Counter from "./Counter.svelte";
+	import Form from './Form.svelte';
+	import Card from './Card.svelte';
 
-    let characters = [];
-    let message = (e) => {
-        characters.push(e.detail);
-        characters = characters.splice(-9);
-    }
+	let todos = [];
+
+	const addTodo = (e) => {
+		// console.log(e.detail);
+		todos = [...todos, e.detail]; // todos.push(e.detail);
+	};
+
+	$: console.table(todos);
 </script>
 
-<Form on:create={message} />
+<h1>Todos:</h1>
 
-{#each characters as character}
-    <Card {character} />
-{/each}
+<Form on:create={addTodo} />
 
-<Counter />
+{#if todos.length === 0}
+	<h4>No todos yet..</h4>
+{:else}
+	<ul>
+		{#each todos as todo}
+			<Card {todo} />
+		{/each}
+	</ul>
+{/if}

@@ -1,14 +1,21 @@
 <script>
-	import { createEventDispatcher } from "svelte";
-    const dispatch = createEventDispatcher();
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
-    export let name = '';
+	export let todo = '';
 
-    let create = () => dispatch('create', {name});
+	const create = () => {
+		dispatch('create', {
+			task: todo,
+			isComplete: false,
+			createdAt: new Date()
+		});
+		todo = '';
+	};
 </script>
 
 <div>
-    <h1>{name}</h1>
-    <input bind:value={name} placeholder="name" />
-    <button on:click={create}>Create</button>
+	<label for="todo_input">Task:</label>
+	<input id="todo_input" bind:value={todo} placeholder="Todo" />
+	<button on:click={create}>Add</button>
 </div>
