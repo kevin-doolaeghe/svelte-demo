@@ -2,15 +2,13 @@
 	import Form from './Form.svelte';
 	import Card from './Card.svelte';
 
+	import { todoStore, addTodo } from '$lib/firebase';
+
 	let todos = [];
+	todoStore.subscribe((_todos) => (todos = _todos));
 
-	const addTodo = (e) => {
-		// console.log(e.detail);
-		todos = [...todos, e.detail]; // todos.push(e.detail);
-	};
-
-	const deleteTodo = (e) => {
-		todos = todos.filter((todo) => todo.createdAt != e.detail.createdAt);
+	const createTodo = (e) => {
+		addTodo(e.detail);
 	};
 
 	$: console.table(todos);
@@ -18,14 +16,14 @@
 
 <h1>Todos:</h1>
 
-<Form on:create={addTodo} />
+<Form on:create={createTodo} />
 
 {#if todos.length === 0}
 	<h4>No todos yet..</h4>
 {:else}
 	<ul>
 		{#each todos as todo}
-			<Card {todo} on:delete={deleteTodo} />
+			<Card {todo} />
 		{/each}
 	</ul>
 {/if}

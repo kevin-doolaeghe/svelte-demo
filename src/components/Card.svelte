@@ -1,15 +1,15 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+	import { updateTodo, deleteTodo } from '$lib/firebase';
 
 	export let todo;
 
-	const markTodoAsComplete = () => {
+	const onMarkTodoAsCompleteButtonClicked = () => {
 		todo.isComplete = !todo.isComplete;
+		updateTodo(todo.id, { isComplete: !todo.isComplete });
 	};
 
-	const deleteTodo = () => {
-		dispatch('delete', todo);
+	const onDeleteTodoButtonClicked = () => {
+		deleteTodo(todo.id);
 	};
 </script>
 
@@ -17,10 +17,10 @@
 	<div>
 		<span>{todo.task}</span>
 		<span>
-			<button on:click={markTodoAsComplete}>✔️</button>
+			<button on:click={onMarkTodoAsCompleteButtonClicked}>✔️</button>
 		</span>
 		<span>
-			<button on:click={deleteTodo}>❌</button>
+			<button on:click={onDeleteTodoButtonClicked}>❌</button>
 		</span>
 	</div>
 </li>

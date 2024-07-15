@@ -22,7 +22,7 @@
 		todo = '';
 	};
 
-	const onKeyPress = (e) => {
+	const onKeyPressed = (e) => {
 		if (e.keyCode == 13) addTodo();
 	};
 </script>
@@ -34,7 +34,7 @@
 	<p class="error">{error}</p>
 </div>
 
-<svelte:window on:keypress={onKeyPress} />
+<svelte:window on:keypress={onKeyPressed} />
 
 <style>
 	.error {
