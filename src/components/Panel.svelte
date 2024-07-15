@@ -9,6 +9,10 @@
 		todos = [...todos, e.detail]; // todos.push(e.detail);
 	};
 
+	const deleteTodo = (e) => {
+		todos = todos.filter((todo) => todo.createdAt != e.detail.createdAt);
+	};
+
 	$: console.table(todos);
 </script>
 
@@ -21,7 +25,7 @@
 {:else}
 	<ul>
 		{#each todos as todo}
-			<Card {todo} />
+			<Card {todo} on:delete={deleteTodo} />
 		{/each}
 	</ul>
 {/if}

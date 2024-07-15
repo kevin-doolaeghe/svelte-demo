@@ -1,15 +1,27 @@
 <script>
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
+
 	export let todo;
 
-	const updateStatus = (e) => {
-		todo.isComplete = e.target.checked;
+	const markTodoAsComplete = () => {
+		todo.isComplete = !todo.isComplete;
+	};
+
+	const deleteTodo = () => {
+		dispatch('delete', todo);
 	};
 </script>
 
 <li class:complete={todo.isComplete}>
 	<div>
-		<input type="checkbox" checked={todo.isComplete} on:change={updateStatus} />
-		<h4>{todo.task}</h4>
+		<span>{todo.task}</span>
+		<span>
+			<button on:click={markTodoAsComplete}>✔️</button>
+		</span>
+		<span>
+			<button on:click={deleteTodo}>❌</button>
+		</span>
 	</div>
 </li>
 
