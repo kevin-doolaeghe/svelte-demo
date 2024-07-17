@@ -22,13 +22,11 @@ const firebaseConfig = {
 	measurementId: 'G-YBT1FWS1E0'
 };
 initializeApp(firebaseConfig);
+export const db = getFirestore();
 
 export const todoStore = writable([]);
 
-export const db = getFirestore();
-const collectionRef = collection(db, 'todos');
-
-export const unsubscribeTodos = onSnapshot(collectionRef, (querySnapshot) => {
+export const unsubscribeTodos = onSnapshot(collection(db, 'todos'), (querySnapshot) => {
 	let todos = [];
 	querySnapshot.forEach((doc) => todos.push({ id: doc.id, ...doc.data() }));
 	todoStore.set(todos);
@@ -36,13 +34,13 @@ export const unsubscribeTodos = onSnapshot(collectionRef, (querySnapshot) => {
 
 export const getTodos = async () => {
 	let todos = [];
-	let querySnapshot = await getDocs(query(collectionRef));
+	let querySnapshot = await getDocs(query(collection(db, 'todos')));
 	querySnapshot.forEach((doc) => todos.push({ id: doc.id, ...doc.data() }));
 	return todos;
 };
 
 export const addTodo = async (todo) => {
-	await addDoc(collectionRef, todo);
+	await addDoc(collection(db, 'todos'), todo);
 };
 
 export const updateTodo = async (id, todo) => {
